@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <style type='text/css'>
+      
+      [draggable=true] {
+        -khtml-user-drag: element;
+        -webkit-user-drag: element;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+      }
+
+      #droparea {
+        width: 150px;
+        height: 150px;
+        border: 1px solid black;
+        background-color: gray;
+      }
+
+    </style>
+    <script type='text/javascript' src='prototype.js'></script>
+    <script type='text/javascript' src='MultiFileUpload.js'></script>
+
+    <script type='text/javascript'>
+
+      function gotData(data) {
+        alert(Object.toJSON(data));
+      }
+
+      function gotNoAllowed() {
+        alert('got files, but none were allowed');
+      }
+
+
+      function pageInit() {
+
+        var xhrBounceUrl = '/java/BIOFAB_Web_Service/Upload/xhrBouncer';
+
+        var multi = new MultiFileUpload();
+
+        alert('Your browser capabilities are: ' + multi.supportedAPIList().join(', '));
+
+        multi.init(gotData, 'files', 'droparea', xhrBounceUrl, null, ['text/plain'], ['txt'], gotNoAllowed);
+
+      }
+
+
+
+    </script>
+  </head>
+  <body onload='pageInit()'>
+
+    <h2>File upload</h2>
+
+    <form action='/java/BIOFAB_Web_Service/Upload/classicBouncer' method='POST' enctype='multipart/form-data'>
+      <p>
+        <input type='file' id='files' name='files[]' multiple />
+      </p>
+      <p>
+        <input type='submit' value='Upload' />
+      </p>
+    </form>
+
+    <div id='droparea'>Drop area</div>
+
+    <div id='debug'></div>
+
+  </body>
+</html>

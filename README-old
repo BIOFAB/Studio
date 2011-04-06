@@ -1,0 +1,222 @@
+(This file is being updated due to a reorganization of the BIOFAB software repositories.  We apologize for any errors during this transition.)
+
+Source code for the BIOFAB Studio client and web service.
+
+Below is a complete guide for setting up a local development environment for both the web client and service.
+
+== Introduction ==
+
+In order to develop on the BIOFAB Studio client and web service, it is necessary to set up a local test environment.
+
+You will need:
+
+  NetBeans to load the project and auto-deploy using the built-in Glassfish Java web application server
+  Apache2 (or similar) for the web client
+  PostgreSQL for the database
+
+You can use different setups, but this is what this guide will deal with.
+
+== Getting the sources ==
+
+Create a directory for this project. E.g.
+
+  mkdir ~/biofab
+
+  cd ~/biofab
+
+Now get the sources from GitHub:
+
+  git clone https://github.com/BIOFAB/Studio.git
+
+  git clone https://github.com/BIOFAB/libBIOFAB.git
+
+Note that BIOFAB Studio is dependent on libBIOFAB.
+
+
+== Installing software ==
+
+Get the newest NetBeans IDE from http://netbeans.org/ and install.
+
+Install Apache2 and PostgreSQL.
+    On Debian or Ubuntu, this can be accomplished using:
+
+        sudo aptitude install apache2 postgresql
+
+    On Mac OS:
+        Apache2 is pre-installed with Mac OS 10.5 (Leopard) and 10.6 (Snow Leopard)
+        PostgreSQL can be downloaded from http://www.postgresql.org/download/macosx
+
+== Setting up Apache 2 on Debian or Ubuntu ==
+
+Go to your /etc/apache2 directory
+
+If you don't see a "sites-enabled" directory, then you need to do the following first:
+
+  Edit extra/httpd-vhosts.conf, adding the following line at the bottom of the file:
+
+    Include ../sites-enabled/
+
+  sudo mkdir sites-available
+
+  sudo mkdir sites-enabled
+
+  Ensure that these directories have the same permissions as the extra/ directory.
+
+Now you have the "sites-enabled" and "sites-available" directories.
+
+  cd sites-available
+
+  Create the file biofab.localhost
+
+  Edit biofab.localhost, adding the following:
+
+    <VirtualHost *:80>
+
+      ServerName  biofab.localhost
+      ServerAlias www.biofab.localhost
+
+      DocumentRoot    /var/www/biofab.localhost
+
+      ProxyRequests Off
+
+      <Proxy *>
+        Order deny,allow
+        Allow from all
+      </Proxy>
+
+      # Glassfish reverse proxy
+      ProxyPass /glassfish http://localhost:8080/ # the port should be your glassfish port
+      ProxyPassReverse /glassfish http://localhost:8080/ # same here
+
+      ServerAdmin juul@localhost
+
+      <Directory /var/www/biofab.localhost>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+      </Directory>
+    </VirtualHost>
+
+Set up a symlink to enable the vhost config:
+
+  cd /etc/apache2/sites-enabled
+
+  ln -s ../sites-available/biofab.localhost ./
+
+Set up a symlink for the web clients:
+
+  sudo mkdir -p /var/www
+
+  cd /var/www
+
+  ln -s ~/biofab/WebClients ./
+
+Restart apache:
+
+  For newer Ubuntu:
+
+    sudo service apache2 restart
+
+  For older Ubuntu or in Debian:
+
+    sudo /etc/init.d/apache2 restart
+
+  For Mac:
+
+    sudo /usr/sbin/apachectl restart
+
+
+== Setting up the hostname ==
+
+Edit the file /etc/hosts, adding the line:
+
+  127.0.0.1	biofab.localhost
+
+If you're on a Mac, flush the DNS cache (if this doesn't work, you can reboot instead):
+
+  dscacheutil -flushcache
+
+
+== Setting up PostgreSQL ==
+
+Become the postgres user:
+
+  su postgres
+
+  psql
+
+You now have a postgresql shell.
+
+Create the database:
+
+  CREATE DATABASE biofab;
+
+  CREATE USER biofab WITH PASSWORD 'fiobab';
+
+  ALTER DATABASE biofab OWNER TO biofab;
+
+Feel free to set your own password, and use your own database name.
+
+Hit ctrl-d to exit the shell postgresql shell.
+
+Load the test database schema and data into your local database:
+
+  ATTENTION: The test database is not yet ready. Contact the developers if you need a copy.
+
+  psql -d biofab -f /home/yourusername/biofab/WebServices/database.sql
+
+Stop being the postgres user by hitting ctrl-d.
+
+
+== Setting up machine-dependent config files ==
+
+There are two machine-dependent config files that need to be set up for your machine.
+
+Example files are provided for each of these. If you used all of the values from this guide, 
+such as e.g. username, password, database name and reverse proxy path, then you can use these
+example files as-is without editing. Just copy them:
+
+cd ~/biofab/libBIOFAB/src
+
+cp hibernate.cfg.xml.example hibernate.cfg.xml
+
+cd ~/biofab/Studio
+
+cp settings.js.example settings.js
+
+You may want to take a look at the hibernate.cfg.xml and settings.js files, to make sure they match your local settings.
+
+
+== Opening the project ==
+
+Start Netbeans
+
+Go to File -> Open Project, and open the ~/biofab/Studio/webservice project.
+
+NetBeans might complain about a missing reference. If it does, right click on the name of the project ("BIOFAB Web Service") in the left panel (the "Projects" tab) and select "Properties" from the drop down menu.
+
+Go to the "Libraries" category in the menu on the left.
+
+Find the libBIOFAB library in the list of compile-time libraries. Click it and click the remove button button on the right.
+
+Click the "Add Project" button and select the ~/biofab/libBIOFAB project. Click OK.
+
+== Deploying ==
+
+Right click on the name of the project ("Studio") in the left panel (the "Projects" tab) and select "Deploy" from the drop down menu.
+
+Wait for glassfish to start up and the webservices to deploy.
+
+You can now access the biofab studio through:
+
+  http://biofab.localhost/studio/
+
+and the webservices directly through urls like:
+
+  http://biofab.localhost/StudioWebService/ClassName/MethodName
+
+
+
+
+  

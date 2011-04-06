@@ -1,0 +1,40 @@
+{
+    "seqCheckOutput": [
+         {
+           "construct_status": false,
+           "clones":
+                    [
+                     {
+                       "clone_id": 1,
+                       "error_nbr": 1,
+                       "errors":
+                                 [
+                                  {
+                                   "error_start": 1281,
+                                   "error_stop": 1409,
+                                   "error_type": "coverage"
+                                  }
+                                 ],
+                       "clone_status": false,
+                       "clone location": ""
+                     }
+                    ],
+           "construct_id": "106",
+           "clone_nbr": 1
+         },
+         {
+          "construct_id": "107",
+          "construct_status": true,
+          "clones":
+                    [
+                     {
+                      "clone_id": 1,
+                      "error_nbr": 0,
+                      "errors": [],
+                      "clone_status": true,
+                      "clone location": ""
+                     }
+                    ]
+         }
+    ]
+}
