@@ -1,9 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-<title>BIOFAB Software</title>
-<meta http-equiv="refresh" content="0;url= http://biofab.org/software" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>BIOFAB Studio</title>
+    <link rel="stylesheet" type="text/css" href="lib/ext-4.0.1/resources/css/ext-all.css"/>
+    <script type="text/javascript">
+    	var PLASMIDS_URL = 'http://biofab.jbei.org/services/data/constructs?format=json';
+//        var PLASMIDS_URL = 'http://localhost:8080/ElectronicDatasheets/constructs?format=json'
+//        var STUDIO_DIR = '/studio';
+//        var DATA_DIR = './data';
+//        var SERVICES_PATH = '../';
+//
+//        var SERVICE_PATH_DATABASE = SERVICES_PATH + '/Database';
+//        var SERVICE_PATH_ANNEALER = SERVICES_PATH + '/annealer';
+//        var SERVICE_PATH_ASSEMBLER = SERVICES_PATH + '/assembler';
+//        var RBS_CALCULATE_URL = SERVICES_PATH + '/RBSCalculator/calculate';
+    </script>
+    <script type="text/javascript" src="lib/ext-4.0.1/ext-all-debug-w-comments.js"></script>
+    <script type="text/javascript" src="checker/SequenceChecker.js"></script>
+    <script type="text/javascript" src="StudioViewport.ui.js"></script>
+    <script type="text/javascript" src="StudioViewport.js"></script>
+    <script type="text/javascript">
+    	Ext.onReady(function() {
+        	Ext.QuickTips.init();
+        	var cmp1 = new StudioViewport({
+            	renderTo: Ext.getBody()
+        	});
+        	cmp1.show();
+    	});
+    </script>
 </head>
 <body></body>
 </html>
