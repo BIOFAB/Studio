@@ -50,7 +50,24 @@ StudioViewportUi = Ext.extend(Ext.Viewport, {
                         items: [
                             {
                                 xtype: 'button',
-                                text: 'Checker',
+                                text: 'RNA Folder',
+                                id: 'rnaFolderButton'
+                            },
+                            {
+                                xtype: 'tbseparator'
+                            },
+                            {
+                                xtype: 'button',
+                                text: 'Device Editor',
+                                id: 'deviceEditorButton',
+                                disabled: true
+                            },
+                            {
+                                xtype: 'tbseparator'
+                            },
+                            {
+                                xtype: 'button',
+                                text: 'Sequence Checker',
                                 id: 'checkerButton'
                             }
                         ]

@@ -4,8 +4,10 @@
     <title>BIOFAB Studio</title>
     <link rel="stylesheet" type="text/css" href="lib/ext-4.0.1/resources/css/ext-all.css"/>
     <script type="text/javascript">
-    	var PLASMIDS_URL = 'http://biofab.jbei.org/services/data/constructs?format=json';
-//        var PLASMIDS_URL = 'http://localhost:8080/ElectronicDatasheets/constructs?format=json'
+        var BASE_URL = '../';  //production deployment = '../', development deployment = '../..'
+    	var PLASMIDS_URL = BASE_URL + 'services/data/constructs?format=json';
+//      var PLASMIDS_URL = BASE_URL + 'ElectronicDatasheets/constructs?format=json'
+//
 //        var STUDIO_DIR = '/studio';
 //        var DATA_DIR = './data';
 //        var SERVICES_PATH = '../';
@@ -16,7 +18,9 @@
 //        var RBS_CALCULATE_URL = SERVICES_PATH + '/RBSCalculator/calculate';
     </script>
     <script type="text/javascript" src="lib/ext-4.0.1/ext-all-debug-w-comments.js"></script>
-    <script type="text/javascript" src="checker/SequenceChecker.js"></script>
+    <script type="text/javascript" src="apps/RnaFolder.js"></script>
+    <script type="text/javascript" src="apps/DeviceEditor.js"></script>
+    <script type="text/javascript" src="apps/SequenceChecker.js"></script>
     <script type="text/javascript" src="StudioViewport.ui.js"></script>
     <script type="text/javascript" src="StudioViewport.js"></script>
     <script type="text/javascript">

@@ -8,10 +8,32 @@ StudioViewport = Ext.extend(StudioViewportUi, {
 	
     initComponent: function() 
     {
-    	StudioViewport.superclass.initComponent.call(this);
-        var button = Ext.ComponentManager.get('checkerButton');
+    	var button;
+
+        StudioViewport.superclass.initComponent.call(this);
+        button = Ext.ComponentManager.get('rnaFolderButton');
+        button.setHandler(this.rnaFolderButtonClickHandler, this);
+        button = Ext.ComponentManager.get('checkerButton');
         button.setHandler(this.checkerButtonClickHandler, this);
+        button = Ext.ComponentManager.get('deviceEditorButton');
+        button.setHandler(this.deviceEditorButtonClickHandler, this);
         this.newSequenceChecker();
+    },
+
+    rnaFolderButtonClickHandler:function(button, event)
+    {
+        var folder = new RnaFolder();
+        var tabPanel = this.getComponent('centerTabPanel');
+        var tab = tabPanel.add(folder);
+        tabPanel.setActiveTab(tab);
+    },
+
+    deviceEditorButtonClickHandler: function(button, event)
+    {
+        var editor = new DeviceEditor();
+        var tabPanel = this.getComponent('centerTabPanel');
+        var tab = tabPanel.add(editor);
+        tabPanel.setActiveTab(tab);
     },
 
     checkerButtonClickHandler: function(button, event)
