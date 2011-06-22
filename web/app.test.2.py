@@ -5,22 +5,50 @@ Created on Feb 9, 2011
 '''
 
 from mod_python import apache
+from mod_python import util
 from checkseq import *
 import sys
+import json
+import commands
+import re
 
 def handler(req):
 
 #    sys.stdout = req
 #    execfile(req.filename)
 
+    form = util.FieldStorage(req, keep_blank_values=1)
+    req.content_type = "text/plain"
+
+    traces = form.get('traces', None)
+    start = form.get('start', None)
+    stop = form.get('stop', None)
+    response = {}
+    
+    
+#    vars['traces'] = traces
+#    vars['start'] = start
+#    vars['stop'] = stop
+#    vars['success'] = True
+#    vars['msg'] = "These are the variables I recieved"
+#
+#    req.write(json.dumps(vars))
+
+
     req.content_type = "text/html"
-    req.write("<html><body>")
+    html = "<html><body>"
+#    req.write("<html><body>")
 #    try:
-    log = open('/home/biofabsftp/files/web/python/log','w')
+    log = open('/home/biofabsftp/files/web/foo/log','w')
     log.write("vhdchjvdc")
     get_parameters()
 
-    req.write("Out: " + str(output_folder))
+    html = html + "Out: " + str(output_folder)
+    response['success'] = True
+    response['msg'] = "The sequence check was successful."
+    response['html'] = html
+    req.write(json.dumps(response))
+    #req.write("Out: " + str(output_folder))
 
 
 #    return apache.OK
@@ -31,8 +59,8 @@ def handler(req):
     data = Sequencing(trace_path    = trace_path,
                       ref_path      = ref_path,
                       output_folder = output_folder,
-                      parse_phrase  = parse_phrase, 
-                      starts        = starts, 
+                      parse_phrase  = parse_phrase,
+                      starts        = starts,
                       stops         = stops,
                       oligo_path    = oligo_path,
                       mapping_path  = mapping_path

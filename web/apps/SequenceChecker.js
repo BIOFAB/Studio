@@ -32,7 +32,7 @@ Ext.define('SequenceChecker', {
                     anchor: '75%'
                     //width: 200
                 },
-                url: 'http://biofab.jbei.org/foo/app.py',
+                url: 'http://biofab.jbei.org/studio/app.py',
                 items: [
                     {
                         fieldLabel: 'Traces Folder',
@@ -64,17 +64,19 @@ Ext.define('SequenceChecker', {
                                     {
                                         success: function(form, action)
                                         {
-                                            var htmlString = '<p>The result will go here.</p>'
-                                                                + '<p>The variables you sent are:</p>'
-                                                                + '<p>Traces Folder: ' + action.result.traces + '</p>'
-                                                                + '<p>Start: ' + action.result.start + '</p>'
-                                                                + '<p>Stop: '+ action.result.stop +'</p>';
+//                                            var htmlString = '<p>The result will go here.</p>'
+//                                                                + '<p>The variables you sent are:</p>'
+//                                                                + '<p>Traces Folder: ' + action.result.traces + '</p>'
+//                                                                + '<p>Start: ' + action.result.start + '</p>'
+//                                                                + '<p>Stop: '+ action.result.stop +'</p>'
+//                                                                + '<p>HTML: '+ action.result.html +'</p>';
                                             var resultPanel = Ext.create('Ext.panel.Panel',
                                                 {
                                                     bodyPadding: 5,
                                                     closable: true,
                                                     title: 'Result',
-                                                    html: htmlString
+                                                    //html: htmlString
+                                                    html:'<iframe src="http://biofab.jbei.org/studio/checkseq_output/summary.html" width="100%" height="100%"></iframe>'
                                                 }
                                             );
                                             var tabPanel = form.owner.up('tabpanel');

@@ -60,7 +60,7 @@ StudioViewportUi = Ext.extend(Ext.Viewport, {
                                 xtype: 'button',
                                 text: 'Device Editor',
                                 id: 'deviceEditorButton',
-                                disabled: true
+                                disabled: false
                             },
                             {
                                 xtype: 'tbseparator'
