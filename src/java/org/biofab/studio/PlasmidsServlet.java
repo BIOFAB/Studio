@@ -32,20 +32,6 @@ import org.biojavax.SimpleNote;
 import org.biojavax.SimpleRichAnnotation;
 import org.biojavax.bio.seq.RichSequence;
 
-//import org.biofab.model.Plasmid;
-//import org.biofab.model.ConstructPerformance;
-//import org.biofab.model.Read;
-//import org.biofab.model.CytometerRead;
-//import org.biofab.model.Instrument;
-//import org.biofab.model.Measurement;
-//import org.biofab.model.CytometerMeasurement;
-
-
-//import org.sbolstandard.libSBOLj.SBOLutil;
-//import org.sbolstandard.libSBOLj.DnaComponent;
-//import org.sbolstandard.libSBOLj.Library;
-//import org.sbolstandard.libSBOLj.SBOLservice;
-
 
 @WebServlet(name="PlasmidsServlet", urlPatterns={"/plasmids/*"})
 public class PlasmidsServlet extends DataAccessServlet
@@ -110,6 +96,7 @@ public class PlasmidsServlet extends DataAccessServlet
         ResultSet           resultSet;
         String              biofabId;
         String              description;
+        int                 index;
         ArrayList<Plasmid>  plasmids = null;
         Plasmid             plasmid = null;
         
@@ -123,8 +110,9 @@ public class PlasmidsServlet extends DataAccessServlet
             {
                 biofabId = resultSet.getString("biofab_id");
                 description = resultSet.getString("description");
+                index = resultSet.getInt("index");
             
-                plasmid = new Plasmid(biofabId, description);
+                plasmid = new Plasmid(biofabId, description, index);
                 plasmids.add(plasmid);
             }
 
@@ -171,11 +159,7 @@ public class PlasmidsServlet extends DataAccessServlet
     protected void fetchPlasmidDesign()
     {
         Statement       statement = null;
-        String          responseString = null;
         RichSequence    richSequence = null;
-        Feature         feature = null;
-        String          newID;
-        String          componentID;
         Namespace       ns = RichObjectFactory.getDefaultNamespace();
         ResultSet       resultSet = null;
         Statement       featuresStatement;
@@ -183,6 +167,8 @@ public class PlasmidsServlet extends DataAccessServlet
         String          biofabId;
         String          dnaSequence;
         String          query;
+        int             fetchSize;
+        boolean         hasSequence = false;
 
         if(_plasmidId != null && _plasmidId.length() > 0)
         {
@@ -196,14 +182,14 @@ public class PlasmidsServlet extends DataAccessServlet
                     biofabId = resultSet.getString("biofab_id");
                     dnaSequence = resultSet.getString("nucleotides");
                     query = "SELECT * FROM private.plasmid_annotation_view WHERE plasmid_biofab_id = '" + biofabId + "'";
-                    
+
                     try
                     {
                         richSequence = RichSequence.Tools.createRichSequence(biofabId, DNATools.createDNA(dnaSequence));
                         annotationsResultSet = fetchResultSet(query);
                         addFeatures(richSequence, annotationsResultSet);
                         richSequence.setCircular(true);
-                        
+
                         if(_format == null || _format.equalsIgnoreCase("genbank"))
                         {
                             _response.setContentType("text/plain");
@@ -211,7 +197,7 @@ public class PlasmidsServlet extends DataAccessServlet
                         }
                         else
                         {
-                        
+
                             if(_format.equalsIgnoreCase("insd"))
                             {
                                 _response.setContentType("text/xml");
@@ -228,6 +214,13 @@ public class PlasmidsServlet extends DataAccessServlet
                     {
                         textError(_response, "Error while fetching data: " + ex.getMessage());
                     }
+                    
+                    hasSequence = true;
+                }
+                
+                if(hasSequence == false)
+                {
+                    textError(_response, "No sequence is available for " + _plasmidId);
                 }
             }
             catch (SQLException ex)

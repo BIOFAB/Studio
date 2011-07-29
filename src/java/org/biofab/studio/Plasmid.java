@@ -14,9 +14,10 @@ public class Plasmid
 {
     protected String    biofabId;
     protected String    description;
+    protected int       index;
 
 
-    public Plasmid(String biofabId, String description)
+    public Plasmid(String biofabId, String description, int index)
     {
         //TODO: manage the boundary cases
 
@@ -38,6 +39,8 @@ public class Plasmid
         {
             //Throw exception
         }
+        
+        this.index = index;
     }
 
 
@@ -50,26 +53,18 @@ public class Plasmid
     }
 
     /**
-     * @param biofabId the biofabId to set
-     */
-//    public void setBiofabId(String biofabId)
-//    {
-//        this.biofabID = biofabID;
-//    }
-
-    /**
      * @return the description
      */
     public String getDescription()
     {
         return description;
     }
-
+    
     /**
-     * @param performance the performance to set
+     * @return the index
      */
-//    public void setPerformance(ConstructPerformance performance)
-//    {
-//        this.performance = performance;
-//    }
+    public int getIndex()
+    {
+        return index;
+    }
 }

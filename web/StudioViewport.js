@@ -18,7 +18,8 @@
             extend: 'Ext.data.Model',
             fields: [
                 {name: 'biofabId',  type: 'string'},
-                {name: 'description', type: 'string'}
+                {name: 'description', type: 'string'},
+                {name: 'index', type: 'int'}
             ]
         });
 
@@ -29,7 +30,13 @@
                url : './plasmids',
                reader: 'json'
            },
-           autoLoad: true
+           autoLoad: true,
+           sorters: [
+                {
+                    property : 'index',
+                    direction: 'ASC'
+                }
+           ]
        });
 
         this.items = [
@@ -72,7 +79,8 @@
                             {
                                 xtype: 'button',
                                 text: 'Sequence Checker',
-                                id: 'checkerButton'
+                                id: 'checkerButton',
+                                disabled: true
                             }
                         ]
                     }
@@ -90,11 +98,12 @@
                 items: [
                     {
                         xtype: 'grid',
+                        id: 'plasmidGridPanel',
                         title: 'Plasmids',
                         store: plasmidStore,
                         stripeRows: true,
                         columnLines: true,
-                        id: 'plasmidGridPanel',
+                        autoExpandColumn: 1,
                         columns: [
                             {
                                 xtype: 'gridcolumn',

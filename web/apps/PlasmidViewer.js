@@ -125,7 +125,6 @@ Ext.define('PlasmidViewer', {
                 flashVars:{design:response.responseText}
             };
         this.plasmidDesignPanel.add(flash);
-        //this.plasmidDesignPanel.doLayout();
         this.mainTabPanel.setActiveTab(0);
     },
 
