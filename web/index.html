@@ -2,26 +2,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>BIOFAB Studio</title>
-    <link rel="stylesheet" type="text/css" href="lib/ext-4.0.1/resources/css/ext-all.css"/>
-    <script type="text/javascript">
-        var BASE_URL = '../';  //production deployment = '../', development deployment = '../..'
-    	var PLASMIDS_URL = BASE_URL + 'services/data/constructs?format=json';
-//      var PLASMIDS_URL = BASE_URL + 'ElectronicDatasheets/constructs?format=json'
-//
-//        var STUDIO_DIR = '/studio';
-//        var DATA_DIR = './data';
-//        var SERVICES_PATH = '../';
-//
-//        var SERVICE_PATH_DATABASE = SERVICES_PATH + '/Database';
-//        var SERVICE_PATH_ANNEALER = SERVICES_PATH + '/annealer';
-//        var SERVICE_PATH_ASSEMBLER = SERVICES_PATH + '/assembler';
-//        var RBS_CALCULATE_URL = SERVICES_PATH + '/RBSCalculator/calculate';
-    </script>
-    <script type="text/javascript" src="lib/ext-4.0.1/ext-all-debug-w-comments.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/ext-4.0.2a/resources/css/ext-all.css"/>
+    <script type="text/javascript" src="lib/ext-4.0.2a/ext-all-debug.js"></script>
+    <script type="text/javascript" src="designviewer/swfobject.js"></script>
     <script type="text/javascript" src="apps/RnaFolder.js"></script>
     <script type="text/javascript" src="apps/DeviceEditor.js"></script>
     <script type="text/javascript" src="apps/SequenceChecker.js"></script>
-    <script type="text/javascript" src="StudioViewport.ui.js"></script>
+    <script type="text/javascript" src="apps/PlasmidViewer.js"></script>
     <script type="text/javascript" src="StudioViewport.js"></script>
     <script type="text/javascript">
     	Ext.onReady(function() {
