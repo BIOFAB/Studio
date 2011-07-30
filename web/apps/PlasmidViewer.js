@@ -137,7 +137,8 @@ Ext.define('PlasmidViewer', {
     plasmidDesignExportButtonHandler: function()
     {
         var genbankWindow = window.open('./plasmids?id=' + this.plasmidId + '&format=genbank','Genbank File for ' + this.plasmidId,'width=640,height=480');
-        genbankWindow.alert("Use File/Save As in the menu bar to save this document.");
         genbankWindow.scrollbars.visible = true;
+        genbankWindow.alert("Use File/Save As in the menu bar to save this document.");
+        
     }
 });
