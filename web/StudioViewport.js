@@ -14,31 +14,6 @@
     constructor: function() {
         var button;
         
-        Ext.define('Plasmid', {
-            extend: 'Ext.data.Model',
-            fields: [
-                {name: 'biofabId',  type: 'string'},
-                {name: 'description', type: 'string'},
-                {name: 'index', type: 'int'}
-            ]
-        });
-
-       var plasmidStore = new Ext.data.Store({
-           model: 'Plasmid',
-           proxy: {
-               type: 'ajax',
-               url : './plasmids',
-               reader: 'json'
-           },
-           autoLoad: true,
-           sorters: [
-                {
-                    property : 'index',
-                    direction: 'ASC'
-                }
-           ]
-       });
-
         this.items = [
             {
                 xtype: 'tabpanel',
@@ -59,6 +34,14 @@
                         xtype: 'toolbar',
                         id: 'mainToolbar',
                         items: [
+                            {
+                                xtype: 'button',
+                                text: 'BIOFAB Collection',
+                                id: 'biofabCollectionButton'
+                            },
+                            {
+                                xtype: 'tbseparator'
+                            },
                             {
                                 xtype: 'button',
                                 text: 'RNA Folder',
@@ -89,7 +72,7 @@
             {
                 xtype: 'tabpanel',
                 activeTab: 0,
-                width: 400,
+                width: 250,
                 style: '',
                 collapsible: true,
                 region: 'west',
@@ -97,32 +80,10 @@
                 id: 'westTabPanel',
                 items: [
                     {
-                        xtype: 'grid',
-                        id: 'plasmidGridPanel',
-                        title: 'Plasmids',
-                        store: plasmidStore,
-                        stripeRows: true,
-                        columnLines: true,
-                        autoExpandColumn: 1,
-                        columns: [
-                            {
-                                xtype: 'gridcolumn',
-                                dataIndex: 'biofabId',
-                                header: 'Identifier',
-                                sortable: true,
-                                width: 100
-                                //editable: false
-                            },
-                            {
-                                xtype: 'gridcolumn',
-                                header: 'Description',
-                                sortable: true,
-                                width: 300,
-                                //editable: false,
-                                dataIndex: 'description'
-                            }
-                        ]
-                    }
+                        xtype: 'panel',
+                        title: 'Projects',
+                        html: '<b>A tree view with your personal collection of components will be added in an upcoming release of the BIOFAB Studio</b>'
+                    },
                 ]
             }
         ];
@@ -130,17 +91,16 @@
         this.callParent();
         
         this.centerTabPanel = this.getComponent('centerTabPanel');
-        this.plasmidGridPanel = Ext.ComponentManager.get('plasmidGridPanel');
-        var plasmidGridSelectionModel = this.plasmidGridPanel.getSelectionModel();
-	plasmidGridSelectionModel.on('selectionchange', this.plasmidGridRowSelectHandler, this);
+        button = Ext.ComponentManager.get('biofabCollectionButton');
+        button.setHandler(this.biofabCollectionButtonClickHandler, this);
         button = Ext.ComponentManager.get('rnaFolderButton');
         button.setHandler(this.rnaFolderButtonClickHandler, this);
         button = Ext.ComponentManager.get('checkerButton');
         button.setHandler(this.checkerButtonClickHandler, this);
         button = Ext.ComponentManager.get('deviceEditorButton');
         button.setHandler(this.deviceEditorButtonClickHandler, this);
-        
-        this.plasmidGridPanel.getStore().on('load', this.plasmidGridStoreLoadHandler, this, null);
+         
+        this.showBiofabCollectionViewer();
     },
 	
 /**********************
@@ -164,6 +124,22 @@
         }
     },
     
+    showBiofabCollectionViewer: function()
+    {
+        var viewer = Ext.ComponentManager.get('biofabCollectionViewer');
+                
+        if(viewer === undefined)
+        {
+            viewer = new BiofabCollectionViewer();
+            this.centerTabPanel.add(viewer);
+            this.centerTabPanel.setActiveTab(viewer);
+        }
+        else
+        {
+            this.centerTabPanel.setActiveTab(viewer);
+        }
+    },
+    
 /**********************
  * 
  *  Event Handlers
@@ -180,6 +156,11 @@
     {
         var record = records[0];
         this.showPlasmidViewer(record);
+    },
+    
+    biofabCollectionButtonClickHandler:function(button, event)
+    {
+        this.showBiofabCollectionViewer();
     },
     
     rnaFolderButtonClickHandler:function(button, event)

@@ -1,27 +1,26 @@
 
 
-package org.biofab.studio;
+package org.biofab.studio.model;
 
 /**
  *
  * @author cesarr
  */
 
-import java.util.Date;
-
-
-public class Plasmid
+public class Oligo
 {
+    protected int       index;
     protected String    biofabId;
     protected String    description;
-    protected int       index;
-
-
-    public Plasmid(String biofabId, String description, int index)
+    protected String    dnaSequence;
+    
+    
+    public Oligo(int index, String biofabId, String description, String dnaSequence)
     {
         //TODO: manage the boundary cases
 
-
+        this.index = index;
+        
         if(biofabId != null && biofabId.length() > 0)
         {
             this.biofabId = biofabId;
@@ -37,13 +36,27 @@ public class Plasmid
         }
         else
         {
-            //Throw exception
+            this.description = "No description is available.";
         }
         
-        this.index = index;
+        if(dnaSequence != null)
+        {
+            this.dnaSequence = dnaSequence;
+        }
+        else
+        {
+            // Throw exception
+        }
     }
 
-
+    /**
+     * @return the index
+     */
+    public int getIndex()
+    {
+        return index;
+    }
+    
     /**
      * @return the biofabId
      */
@@ -60,11 +73,12 @@ public class Plasmid
         return description;
     }
     
+    
     /**
-     * @return the index
+     * @return the dnaSequence
      */
-    public int getIndex()
+    public String getDnaSequence()
     {
-        return index;
+        return dnaSequence;
     }
 }

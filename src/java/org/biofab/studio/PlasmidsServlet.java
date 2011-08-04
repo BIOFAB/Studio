@@ -7,12 +7,11 @@ package org.biofab.studio;
  * and open the template in the editor.
  */
 
+import org.biofab.studio.model.Plasmid;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Time;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,11 +36,7 @@ import org.biojavax.bio.seq.RichSequence;
 public class PlasmidsServlet extends DataAccessServlet
 {
     String                  _plasmidId;
-    String                  _format;
     String                  _queryString;
-    HttpServletRequest      _request;
-    HttpServletResponse     _response;
-    
     
     @Override
     public void init()
@@ -230,71 +225,6 @@ public class PlasmidsServlet extends DataAccessServlet
         }
     }
     
-    protected ResultSet fetchResultSet(String query)
-    {
-        Statement           statement = null;
-        ResultSet           resultSet = null;
-  
-        try
-        {
-            _connection = DriverManager.getConnection(_jdbcDriver, _user, _password);
-            statement = _connection.createStatement();
-            resultSet = statement.executeQuery(query);
-        }
-        catch (SQLException ex)
-        {
-            if(_format != null && _format.length() > 0)
-            {
-                if(_format.equalsIgnoreCase("json"))
-                {
-                    jsonError(_response, "Error while fetching data: " + ex.getMessage());
-
-                }
-                else
-                {
-                    textError(_response, "Error while fetching data: " + ex.getMessage());
-                }
-            }
-            else
-            {
-                textError(_response, "Error while fetching data: " + ex.getMessage());
-            }
-            
-        }
-        finally
-        {
-            try
-            {
-                if(_connection != null)
-                {
-                    _connection.close();
-                }
-            }
-            catch (SQLException ex)
-            {
-                if(_format != null && _format.length() > 0)
-                {
-                    if(_format.equalsIgnoreCase("json"))
-                    {
-                        jsonError(_response, "Error while fetching data: " + ex.getMessage());
-                    }
-                    else
-                    {
-                        textError(_response, "Error while fetching data: " + ex.getMessage());
-                    }
-                }
-                else
-                {
-                    textError(_response, "Error while fetching data: " + ex.getMessage());
-                }
-            }
-        }
-        
-        return resultSet;
-    }
-
-
-
     protected void addComment(RichSequence seq, String comment)
     {
         seq.addComment(new SimpleComment(comment, 0));
