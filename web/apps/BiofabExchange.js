@@ -1,13 +1,13 @@
 /*
  * 
- * File: BiofabCollectionViewer.js
+ * 
  *
  */
 
- Ext.define('BiofabCollectionViewer', {
+ Ext.define('BiofabExchange', {
     extend: 'Ext.tab.Panel',
-    id: 'biofabCollectionViewer',
-    title: "BIOFAB Collection",
+    id: 'biofabExchange',
+    title: "BIOFAB Exchange",
     closable: true,
     //collapsible: true,
     
@@ -22,6 +22,9 @@
     oligosPanel: null,
     oligoGridPanel: null,
     oligoDesignPanel: null,
+    featuresPanel: null,
+    featureGridPanel: null,
+    featureSequencePanel: null,
     
     constructor: function() {
        var button;
@@ -51,6 +54,26 @@
            },
            autoLoad: true,
            sorters: [
+                {
+                    property : 'index',
+                    direction: 'ASC'
+                }
+           ]
+       });
+       
+       var featureStore = new Ext.data.Store({
+           model: 'Feature',
+           proxy: {
+               type: 'ajax',
+               url : './features',
+               reader: 'json'
+           },
+           autoLoad: true,
+           sorters: [
+                {
+                    property : 'genbankType',
+                    direction: 'ASC'
+                },
                 {
                     property : 'index',
                     direction: 'ASC'
@@ -89,7 +112,8 @@
                                 sortable: true,
                                 width: 400,
                                 //editable: false,
-                                dataIndex: 'description'
+                                dataIndex: 'description',
+                                flex: 1
                             }
                         ]
                     },
@@ -154,6 +178,7 @@
                                 header: 'Description',
                                 sortable: true,
                                 width: 400,
+                                flex: 1,
                                 //editable: false,
                                 dataIndex: 'description'
                             }
@@ -171,6 +196,71 @@
                             {
                                 xtype: 'textarea',
                                 itemId: 'oligoDesignTextArea',
+                                readOnly: true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                xtype: 'panel',
+                itemId: 'featuresPanel',
+                title: 'Features',
+                layout: 'border',
+                items: [
+                    {
+                        xtype: 'grid',
+                        itemId: 'featureGridPanel',
+                        region: 'center',
+                        store: featureStore,
+                        stripeRows: true,
+                        columnLines: true,
+                        //height: 300,
+                        split: true,
+                        columns: [
+                            {
+                                xtype: 'gridcolumn',
+                                dataIndex: 'biofabId',
+                                header: 'Identifier',
+                                sortable: true,
+                                width: 100
+                            },
+                            {
+                                xtype: 'gridcolumn',
+                                dataIndex: 'genbankType',
+                                header: 'Genbank Type',
+                                sortable: true,
+                                width: 125
+                            },
+                            {
+                                xtype: 'gridcolumn',
+                                dataIndex: 'biofabType',
+                                header: 'BIOFAB Type',
+                                sortable: true,
+                                width: 125
+                            },
+                            {
+                                xtype: 'gridcolumn',
+                                header: 'Description',
+                                sortable: true,
+                                width: 400,
+                                flex: 1,
+                                dataIndex: 'description'
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'panel',
+                        itemId: 'featureSequencePanel',
+                        title: 'DNA Sequence',
+                        region: 'south',
+                        height: 250,
+                        layout: 'fit',
+                        split: true,
+                        items:[
+                            {
+                                xtype: 'textarea',
+                                itemId: 'featureSequenceTextArea',
                                 readOnly: true
                             }
                         ]
@@ -197,6 +287,13 @@
         var oligoGridSelectionModel = this.oligoGridPanel.getSelectionModel();
 	oligoGridSelectionModel.on('selectionchange', this.oligoGridRowSelectHandler, this);
         this.oligoGridPanel.getStore().on('load', this.oligoGridStoreLoadHandler, this, null);
+        
+        this.featuresPanel = this.getComponent('featuresPanel');
+        this.featureGridPanel = this.featuresPanel.getComponent('featureGridPanel');
+        this.featureSequencePanel = this.featuresPanel.getComponent('featureSequencePanel');
+        var featureGridSelectionModel = this.featureGridPanel.getSelectionModel();
+	featureGridSelectionModel.on('selectionchange', this.featureGridRowSelectHandler, this);
+        this.featureGridPanel.getStore().on('load', this.featureGridStoreLoadHandler, this, null);
     },
 	
 /**********************
@@ -283,5 +380,23 @@
         var dnaSequence = record.get('dnaSequence');
         this.oligoDesignPanel.setTitle('DNA Sequence for ' + biofabId);
         this.oligoDesignPanel.getComponent('oligoDesignTextArea').setValue(dnaSequence);
+    },
+    
+    featureGridStoreLoadHandler: function(store, records, isSuccessful, operation, options)
+    {
+        var record = records[0];
+        var biofabId = record.get('biofabId');
+        var dnaSequence = record.get('dnaSequence');
+        this.featureSequencePanel.setTitle('DNA Sequence for ' + biofabId);
+        this.featureSequencePanel.getComponent('featureSequenceTextArea').setValue(dnaSequence);
+    },
+    
+    featureGridRowSelectHandler: function(selectModel, records, options)
+    {
+        var record = records[0];
+        var biofabId = record.get('biofabId');
+        var dnaSequence = record.get('dnaSequence');
+        this.featureSequencePanel.setTitle('DNA Sequence for ' + biofabId);
+        this.featureSequencePanel.getComponent('featureSequenceTextArea').setValue(dnaSequence);
     }
 });

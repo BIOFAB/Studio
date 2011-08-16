@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.biofab.studio.JSONResponse;
 
 
-public class DataAccessServlet extends HttpServlet
+public class StudioServlet extends HttpServlet
 {
     String                  _jdbcDriver = "jdbc:postgresql://localhost:5432/biofab";
     String                  _user = "biofab";
@@ -132,7 +132,7 @@ public class DataAccessServlet extends HttpServlet
         }
         catch (IOException ex)
         {
-            Logger.getLogger(DataAccessServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudioServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally
         {
@@ -156,7 +156,7 @@ public class DataAccessServlet extends HttpServlet
         }
         catch (IOException ex)
         {
-            Logger.getLogger(DataAccessServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudioServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally
         {
@@ -178,7 +178,7 @@ public class DataAccessServlet extends HttpServlet
         catch (IOException ex)
         {
 
-            Logger.getLogger(DataAccessServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudioServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally
         {
@@ -202,7 +202,7 @@ public class DataAccessServlet extends HttpServlet
         catch (IOException ex)
         {
             
-            Logger.getLogger(DataAccessServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudioServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally
         {

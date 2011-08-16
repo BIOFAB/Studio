@@ -36,8 +36,8 @@
                         items: [
                             {
                                 xtype: 'button',
-                                text: 'BIOFAB Collection',
-                                id: 'biofabCollectionButton'
+                                text: 'BIOFAB Exchange',
+                                id: 'biofabExchangeButton'
                             },
                             {
                                 xtype: 'tbseparator'
@@ -91,8 +91,8 @@
         this.callParent();
         
         this.centerTabPanel = this.getComponent('centerTabPanel');
-        button = Ext.ComponentManager.get('biofabCollectionButton');
-        button.setHandler(this.biofabCollectionButtonClickHandler, this);
+        button = Ext.ComponentManager.get('biofabExchangeButton');
+        button.setHandler(this.biofabExchangeButtonClickHandler, this);
         button = Ext.ComponentManager.get('rnaFolderButton');
         button.setHandler(this.rnaFolderButtonClickHandler, this);
         button = Ext.ComponentManager.get('checkerButton');
@@ -100,7 +100,7 @@
         button = Ext.ComponentManager.get('deviceEditorButton');
         button.setHandler(this.deviceEditorButtonClickHandler, this);
          
-        this.showBiofabCollectionViewer();
+        this.showBiofabExchange();
     },
 	
 /**********************
@@ -124,13 +124,13 @@
         }
     },
     
-    showBiofabCollectionViewer: function()
+    showBiofabExchange: function()
     {
-        var viewer = Ext.ComponentManager.get('biofabCollectionViewer');
+        var viewer = Ext.ComponentManager.get('biofabExchange');
                 
         if(viewer === undefined)
         {
-            viewer = new BiofabCollectionViewer();
+            viewer = new BiofabExchange();
             this.centerTabPanel.add(viewer);
             this.centerTabPanel.setActiveTab(viewer);
         }
@@ -158,9 +158,9 @@
         this.showPlasmidViewer(record);
     },
     
-    biofabCollectionButtonClickHandler:function(button, event)
+    biofabExchangeButtonClickHandler:function(button, event)
     {
-        this.showBiofabCollectionViewer();
+        this.showBiofabExchange();
     },
     
     rnaFolderButtonClickHandler:function(button, event)

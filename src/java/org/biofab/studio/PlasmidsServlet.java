@@ -33,7 +33,7 @@ import org.biojavax.bio.seq.RichSequence;
 
 
 @WebServlet(name="PlasmidsServlet", urlPatterns={"/plasmids/*"})
-public class PlasmidsServlet extends DataAccessServlet
+public class PlasmidsServlet extends StudioServlet
 {
     String                  _plasmidId;
     String                  _queryString;
