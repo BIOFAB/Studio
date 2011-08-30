@@ -491,7 +491,7 @@ Ext.define('PartPanel',
         this.constructDesignPanelText.setVisible(false);
         var flash = {
                 xtype: 'flash',
-                url:'designviewer/DesignViewer.swf',
+                url:'../designviewer/DesignViewer.swf',
                 flashVars:{design:response.responseText}
             };
         this.constructDesignPanel.add(flash);
