@@ -4,9 +4,9 @@
  *
  */
 
-Ext.define('SequenceChecker', {
+Ext.define('AssemblyCanvas', {
     extend: 'Ext.tab.Panel',
-    title: 'Sequence Checker',
+    title: 'Assembly Canvas',
     layout: 'border',
     tpl: '',
     closable: true,
