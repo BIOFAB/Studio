@@ -11,18 +11,18 @@
     </script>
     <script type="text/javascript" src="models.js"></script>
     <script type="text/javascript" src="apps/BiofabExchange.js"></script>
+    <script type="text/javascript" src="apps/BiofabDatasheetViewer.js"></script>
     <script type="text/javascript" src="apps/RnaFolder.js"></script>
+    <script type="text/javascript" src="apps/AssemblyCanvas.js"></script>
     <script type="text/javascript" src="apps/DeviceEditor.js"></script>
-    <script type="text/javascript" src="apps/SequenceChecker.js"></script>
-    <script type="text/javascript" src="apps/PlasmidViewer.js"></script>
     <script type="text/javascript" src="StudioViewport.js"></script>
     <script type="text/javascript">
     	Ext.onReady(function() {
         	Ext.QuickTips.init();
-        	var cmp1 = new StudioViewport({
-            	renderTo: Ext.getBody()
+        	var studio = new StudioViewport({
+                    renderTo: Ext.getBody()
         	});
-        	cmp1.show();
+        	studio.show();
     	});
     </script>
 </head>

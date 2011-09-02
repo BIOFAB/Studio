@@ -9,7 +9,7 @@
     layout: 'border',
     id: 'studioViewport',
     centerTabPanel: null,
-    plasmidGridPanel: null,
+    westTabPanel: null,
     
     constructor: function() {
         var button;
@@ -44,8 +44,25 @@
                             },
                             {
                                 xtype: 'button',
+                                text: 'BIOFAB Datasheets',
+                                id: 'biofabDatasheetsButton'
+                            },
+                            {
+                                xtype: 'tbseparator'
+                            },
+                            {
+                                xtype: 'button',
                                 text: 'RNA Folder',
                                 id: 'rnaFolderButton'
+                            },
+                            {
+                                xtype: 'tbseparator'
+                            },
+                            {
+                                xtype: 'button',
+                                text: 'Assembly Canvas',
+                                id: 'assemblyCanvasButton',
+                                disabled: false
                             },
                             {
                                 xtype: 'tbseparator'
@@ -55,15 +72,6 @@
                                 text: 'Device Editor',
                                 id: 'deviceEditorButton',
                                 disabled: false
-                            },
-                            {
-                                xtype: 'tbseparator'
-                            },
-                            {
-                                xtype: 'button',
-                                text: 'Sequence Checker',
-                                id: 'checkerButton',
-                                disabled: true
                             }
                         ]
                     }
@@ -93,12 +101,16 @@
         this.centerTabPanel = this.getComponent('centerTabPanel');
         button = Ext.ComponentManager.get('biofabExchangeButton');
         button.setHandler(this.biofabExchangeButtonClickHandler, this);
+        button = Ext.ComponentManager.get('biofabDatasheetsButton');
+        button.setHandler(this.handleBiofabDatasheetsButtonClick, this);
         button = Ext.ComponentManager.get('rnaFolderButton');
         button.setHandler(this.rnaFolderButtonClickHandler, this);
-        button = Ext.ComponentManager.get('checkerButton');
-        button.setHandler(this.checkerButtonClickHandler, this);
+        button = Ext.ComponentManager.get('assemblyCanvasButton');
+        button.setHandler(this.assemblyCanvasButtonClickHandler, this);
         button = Ext.ComponentManager.get('deviceEditorButton');
         button.setHandler(this.deviceEditorButtonClickHandler, this);
+        
+        this.westTabPanel = Ext.ComponentManager.get('westTabPanel');
          
         this.showBiofabExchange();
     },
@@ -109,34 +121,68 @@
  * 
  **********************/
     
-    showPlasmidViewer: function(plasmidRecord)
-    {
-        var plasmidViewer;
-        var tab;
-
-        plasmidViewer = new PlasmidViewer();
-
-        if(plasmidViewer !== null)
-        {
-            tab = this.centerTabPanel.add(plasmidViewer);
-            this.centerTabPanel.setActiveTab(tab);
-            plasmidViewer.displayInfo(plasmidRecord);
-        }
-    },
+//    showPlasmidViewer: function(plasmidRecord)
+//    {
+//        var plasmidViewer;
+//        var tab;
+//
+//        plasmidViewer = new PlasmidViewer();
+//
+//        if(plasmidViewer !== null)
+//        {
+//            tab = this.centerTabPanel.add(plasmidViewer);
+//            this.centerTabPanel.setActiveTab(tab);
+//            plasmidViewer.displayInfo(plasmidRecord);
+//        }
+//    },
     
     showBiofabExchange: function()
     {
-        var viewer = Ext.ComponentManager.get('biofabExchange');
+        var app = Ext.ComponentManager.get('biofabExchange');
                 
-        if(viewer === undefined)
+        if(app === undefined)
         {
-            viewer = new BiofabExchange();
-            this.centerTabPanel.add(viewer);
-            this.centerTabPanel.setActiveTab(viewer);
+            app = new BiofabExchange();
+            this.centerTabPanel.add(app);
+            this.centerTabPanel.setActiveTab(app);
         }
         else
         {
-            this.centerTabPanel.setActiveTab(viewer);
+            this.centerTabPanel.setActiveTab(app);
+        }
+    },
+    
+    showBiofabDatasheetViewer: function()
+    {
+        var app = Ext.ComponentManager.get('biofabDatasheetViewer');
+        this.westTabPanel.collapse(Ext.Component.DIRECTION_LEFT, false, null);
+        
+        if(app === undefined)
+        {
+            app = new BiofabDatasheetViewer();
+            this.centerTabPanel.add(app);
+            this.centerTabPanel.setActiveTab(app);
+        }
+        else
+        {
+            this.centerTabPanel.setActiveTab(app);
+        }
+    },
+    
+    showAssemblyCanvas: function()
+    {
+        
+        var app = Ext.ComponentManager.get('assemblyCanvas');
+                
+        if(app === undefined)
+        {
+            app = new AssemblyCanvas();
+            this.centerTabPanel.add(app);
+            this.centerTabPanel.setActiveTab(app);
+        }
+        else
+        {
+            this.centerTabPanel.setActiveTab(app);
         }
     },
     
@@ -146,41 +192,62 @@
  * 
  **********************/
     
-    plasmidGridStoreLoadHandler: function(store, records, isSuccessful, operation, options)
-    {
-        var record = records[0];
-        this.showPlasmidViewer(record);
-    },
-    
-    plasmidGridRowSelectHandler: function(selectModel, records, options)
-    {
-        var record = records[0];
-        this.showPlasmidViewer(record);
-    },
+//    plasmidGridStoreLoadHandler: function(store, records, isSuccessful, operation, options)
+//    {
+//        var record = records[0];
+//        this.showPlasmidViewer(record);
+//    },
+//    
+//    plasmidGridRowSelectHandler: function(selectModel, records, options)
+//    {
+//        var record = records[0];
+//        this.showPlasmidViewer(record);
+//    },
     
     biofabExchangeButtonClickHandler:function(button, event)
     {
         this.showBiofabExchange();
     },
     
+    handleBiofabDatasheetsButtonClick:function(button, event)
+    {
+        this.showBiofabDatasheetViewer();
+    },
+    
     rnaFolderButtonClickHandler:function(button, event)
     {
-        var folder = new RnaFolder();
-        var tab = this.centerTabPanel.add(folder);
-        this.centerTabPanel.setActiveTab(tab);
+        var app = Ext.ComponentManager.get('rnaFolder');
+                
+        if(app === undefined)
+        {
+            app = new RnaFolder();
+            this.centerTabPanel.add(app);
+            this.centerTabPanel.setActiveTab(app);
+        }
+        else
+        {
+            this.centerTabPanel.setActiveTab(app);
+        }
     },
 
     deviceEditorButtonClickHandler: function(button, event)
     {
-        var editor = new DeviceEditor();
-        var tab = this.centerTabPanel.add(editor);
-        this.centerTabPanel.setActiveTab(tab);
+        var app = Ext.ComponentManager.get('deviceEditor');
+                
+        if(app === undefined)
+        {
+            app = new DeviceEditor();
+            this.centerTabPanel.add(app);
+            this.centerTabPanel.setActiveTab(app);
+        }
+        else
+        {
+            this.centerTabPanel.setActiveTab(app);
+        }
     },
 
-    checkerButtonClickHandler: function(button, event)
+    assemblyCanvasButtonClickHandler: function(button, event)
     {
-        var checker = new SequenceChecker();
-        var tab = this.centerTabPanel.add(checker);
-        this.centerTabPanel.setActiveTab(tab);
+        this.showAssemblyCanvas();
     }
 });

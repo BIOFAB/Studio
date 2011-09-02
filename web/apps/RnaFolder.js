@@ -7,6 +7,7 @@
 Ext.define('RnaFolder',
     {
         extend: 'Ext.panel.Panel',
+        id: 'rnaFolder',
         title: 'RNA Folder',
         layout: 'fit',
         tpl: '',

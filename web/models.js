@@ -28,3 +28,20 @@ Ext.define('Feature', {
         {name: 'dnaSequence', type: 'string'}
     ]
 });
+
+Ext.define('LocalFile', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'name', type: 'string'},
+        {name: 'size',  type: 'int'}
+    ]
+});
+
+Ext.define('FileNameToken', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'position', type: 'int'},
+        {name: 'token',  type: 'string'},
+        {name: 'type',  type: 'string'}
+    ]
+});
