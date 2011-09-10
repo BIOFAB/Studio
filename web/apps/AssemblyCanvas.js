@@ -48,24 +48,47 @@ Ext.define('AssemblyCanvas', {
             this.items = [
                 {
                     xtype: 'panel',
+                    itemId: 'assemblyPanel',
+                    title: 'Assembly',
+                    layout: 'border',
+                    items: [
+                        {
+                            xtype: 'panel',
+                            itemId: 'assemblyEditorPanel',
+                            region: 'center',
+                            flex: 1,
+                            split: true,
+                            collapsible: true,
+                            layout: 'fit',
+                            items: []
+                        },
+                        {
+                            xtype: 'panel',
+                            itemId: 'assemblyResultPanel',
+                            region: 'south',
+                            flex: 1,
+                            split: true,
+                            title: 'Assembly Result',
+                            //layout: 'fit',
+                            items: []
+                        }
+                    ]
+                },
+                {
+                    xtype: 'panel',
                     title: 'Sequence Check',
-                    //layout: {type:'vbox', padding:'0', align:'stretch'},
                     layout: 'border',
                     itemId: 'sequenceCheckPanel',
                     items: [
                         {
                             xtype: 'panel',
                             itemId:'sequenceCheckParametersPanel',
-                            //frame: true,
                             title: 'Parameters',
                             collapsible: true,
                             layout: 'border',
                             region: 'center',
                             split: false,
-                            //height: 400,
                             flex: 2,
-                            //maxheight: 400,
-                            //minheight: 400,
                             //url: 'http://biofab.jbei.org/studio/app.py',
                             bbar: [
                                 {xtype: 'tbfill'},
