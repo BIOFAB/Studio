@@ -16,6 +16,8 @@ Ext.define('AssemblyCanvas', {
     
     fileNameTokenStore: null,
     seqFileInfoStore: null,
+    assemblyEditorTextArea: null,
+    codeMirror: null,
     
     constructor: function() {
         
@@ -48,31 +50,35 @@ Ext.define('AssemblyCanvas', {
             this.items = [
                 {
                     xtype: 'panel',
-                    itemId: 'assemblyPanel',
-                    title: 'Assembly',
-                    layout: 'border',
-                    items: [
+                    itemId: 'assemblyEditorPanel',
+                    title: 'Assembly Editor',
+                    layout: 'fit',
+                    tbar: [
                         {
-                            xtype: 'panel',
-                            itemId: 'assemblyEditorPanel',
-                            region: 'center',
-                            flex: 1,
-                            split: true,
-                            collapsible: true,
-                            layout: 'fit',
-                            items: []
+                            xtype: 'button',
+                            text: 'Run Assembly',
+                            disabled: true
                         },
                         {
-                            xtype: 'panel',
-                            itemId: 'assemblyResultPanel',
-                            region: 'south',
-                            flex: 1,
-                            split: true,
-                            title: 'Assembly Result',
-                            //layout: 'fit',
-                            items: []
+                            xtype: 'tbfill'
+                        }
+                    ],
+                    items: [
+                        {
+                            xtype: 'textarea',
+                            itemId: 'assemblyEditorTextArea'
                         }
                     ]
+                },
+                {
+                    xtype: 'panel',
+                    itemId: 'assemblyResultPanel',
+                    //region: 'south',
+                    flex: 1,
+                    //split: false,
+                    title: 'Assembly Result',
+                    //layout: 'fit',
+                    items: []
                 },
                 {
                     xtype: 'panel',
@@ -259,6 +265,7 @@ Ext.define('AssemblyCanvas', {
 
             this.callParent();
             this.on('afterrender', this.handleAfterRender, this, null);
+            this.assemblyEditorTextArea = this.getComponent('assemblyEditorPanel').getComponent('assemblyEditorTextArea');
         }
         else 
         {
@@ -282,7 +289,9 @@ Ext.define('AssemblyCanvas', {
         // TODO Find a solution that doesn't require direct accessing of the DOM node
         
         var domNode = Ext.getDom('assemblyCanvasFiles');
-        domNode.addEventListener('change', this.handleFileSelect, false);
+        domNode.addEventListener('change', this.handleFileSelect, false);        
+        var textArea = Ext.getDom(this.assemblyEditorTextArea.getId());
+        this.codeMirror = CodeMirror.fromTextArea(textArea, {lineNumbers: true});
     },
         
     handleFileSelect: function(event)
