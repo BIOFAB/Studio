@@ -29,7 +29,7 @@ Ext.define('DataAccessClientViewport', {
             },
             sorters: [
                 {
-                    property : 'geneExpressionPerCell',
+                    property : 'meanFluorescencePerCell',
                     direction: 'DESC'
                 }
             ],
@@ -224,8 +224,8 @@ Ext.define('DataAccessClientViewport', {
                                     },
                                     {
                                         xtype: 'numbercolumn',
-                                        dataIndex: 'geneExpressionPerCell',
-                                        header: 'Gene Expression per Cell',
+                                        dataIndex: 'meanFluorescencePerCell',
+                                        header: 'Mean Fluorescence per Cell',
                                         sortable: true,
                                         width: 150,
                                         align: 'left',
@@ -234,7 +234,7 @@ Ext.define('DataAccessClientViewport', {
                                     },
                                     {
                                         xtype: 'numbercolumn',
-                                        dataIndex: 'geneExpressionPerCellSD',
+                                        dataIndex: 'meanFluorescencePerCellSD',
                                         header: 'Standard Deviation',
                                         sortable: true,
                                         width: 125,
@@ -762,7 +762,7 @@ Ext.define('DataAccessClientViewport', {
 
                             for(var j = 0; j < measurementsCount; j += 1)
                             {
-                                if(measurements[j].type === 'GEC')
+                                if(measurements[j].type === 'MFC')
                                 {
                                     measurement = measurements[j];
                                     partForStore = {
@@ -771,8 +771,8 @@ Ext.define('DataAccessClientViewport', {
                                         type: part.type,
                                         description: part.description,
                                         dnaSequence: part.dnaSequence.nucleotides,
-                                        geneExpressionPerCell: measurement.value,
-                                        geneExpressionPerCellSD: measurement.standardDeviation,
+                                        meanFluorescencePerCell: measurement.value,
+                                        meanFluorescencePerCellSD: measurement.standardDeviation,
                                         constructId: measurement.constructId
                                     }
                                     partsForStore.push(partForStore);

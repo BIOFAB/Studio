@@ -144,7 +144,7 @@ Ext.define('RandomPromoterLibraryPanel',
                               renderer: Ext.util.Format.numberRenderer('0,0'),
                               font: '11px Arial'
                           },
-                          title: 'Gene Expression per Cell (AU)',
+                          title: 'Mean Fluorescence per Cell (AU)',
                           grid: true,
                           minimum: 0,
                           labelTitle: {font: '14px Arial'}
@@ -226,7 +226,7 @@ Ext.define('RandomPromoterLibraryPanel',
                         {
                             measurement = measurements[i];
 
-                            if(measurement.type === 'GEC')
+                            if(measurement.type === 'MFC')
                             {
                                 selectedMeasurements.push(
                                     {

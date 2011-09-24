@@ -255,7 +255,7 @@ Ext.define('PartPanel',
             }
             else
             {
-                axisTitle = 'Gene Expression per Cell (AU)';
+                axisTitle = 'Mean Fluorescence per Cell (AU)';
             }
             
             partPerformances = this.generatePartPerformances(partRecord, parts);
@@ -397,7 +397,7 @@ Ext.define('PartPanel',
         }
         else
         {
-            measurementType = 'GEC';
+            measurementType = 'MFC';
         }
 
         for(var j = 0; j < partCount; j += 1)

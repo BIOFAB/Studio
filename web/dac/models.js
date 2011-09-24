@@ -6,8 +6,8 @@ Ext.define('Promoter', {
         {name: 'type', type: 'string'},
         {name: 'description', type: 'string'},
         {name: 'dnaSequence', type: 'string'},
-        {name: 'geneExpressionPerCell',type: 'float'},
-        {name: 'geneExpressionPerCellSD', type: 'float'},
+        {name: 'meanFluorescencePerCell',type: 'float'},
+        {name: 'meanFluorescencePerCellSD', type: 'float'},
         {name: 'constructId', type: 'string'}
     ]
 });
